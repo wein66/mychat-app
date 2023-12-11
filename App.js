@@ -1,8 +1,10 @@
-import Login from './screens/Login';
-import Signup from './screens/Signup';
+import { AuthenticatedUserProvider } from './context/AuthenticatedUserProvider';
+import ChatNavigator from './components/ChatNavigator'
 
 export default function App() {
   return (
-    <Signup />
+    <AuthenticatedUserProvider>
+      <ChatNavigator />
+    </AuthenticatedUserProvider>
   );
 }

@@ -7,13 +7,24 @@ import { View,
          TouchableWithoutFeedback,
          Keyboard,
          Image, 
+         Alert,
          StyleSheet } from 'react-native';
 import colors from "../colors"
+import { auth } from '../config';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 const backImage = require("../assets/background.jpg");
 //그림자는 react-native-shadow-2
-const Signup = () => {
+const Signup = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const onPress = () => {
+   if(email !== '' && password !== '') {
+      createUserWithEmailAndPassword(auth, email, password)
+      .then(()=>console.log('회원가입 완료'))
+      .catch((err)=> Alert.alert("SignUp Error", err.message));
+   }
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -40,11 +51,11 @@ const Signup = () => {
                   value={password}
                   onChangeText={(text)=>setPassword(text)}
                 />
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={onPress}>
                     <Text style={styles.buttonText}>회원가입</Text>
                 </TouchableOpacity>
             <View style={styles.joinView}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=> navigation.navigate("Login")}>
                  <Text style={styles.joinText}>회원로그인</Text>
               </TouchableOpacity>    
             </View>            
